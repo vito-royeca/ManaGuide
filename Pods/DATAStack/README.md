@@ -52,9 +52,10 @@
 * [License](#license)
 
 ## Running the demos
+Before being able to run the demos you have to install the demo dependencies using [CocoaPods](https://cocoapods.org/).
 
-- Clone the repository
-- Open the `Demo.xcodeproj`
+- Install CocoaPods
+- Run `pod install`
 - Enjoy!
 
 ## Initialization
@@ -151,7 +152,7 @@ Deleting the `.sqlite` file and resetting the state of your **DATAStack** is as 
 
 **Swift**
 ```swift
-self.dataStack.drop()
+try self.dataStack.drop()
 ```
 
 **Objective-C**

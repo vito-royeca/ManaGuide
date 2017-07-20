@@ -3,15 +3,6 @@ import CoreData
 
 @objc public enum DATAStackStoreType: Int {
     case inMemory, sqLite
-
-    var type: String {
-        switch self {
-        case .inMemory:
-            return NSInMemoryStoreType
-        case .sqLite:
-            return NSSQLiteStoreType
-        }
-    }
 }
 
 @objc public class DATAStack: NSObject {
@@ -33,16 +24,22 @@ import CoreData
      The context for the main queue. Please do not use this to mutate data, use `performInNewBackgroundContext`
      instead.
      */
-    public lazy var mainContext: NSManagedObjectContext = {
-        let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-        context.undoManager = nil
-        context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
-        context.persistentStoreCoordinator = self.persistentStoreCoordinator
+    public var mainContext: NSManagedObjectContext {
+        get {
+            if _mainContext == nil {
+                let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+                context.undoManager = nil
+                context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+                context.persistentStoreCoordinator = self.persistentStoreCoordinator
 
-        NotificationCenter.default.addObserver(self, selector: #selector(DATAStack.mainContextDidSave(_:)), name: .NSManagedObjectContextDidSave, object: context)
+                NotificationCenter.default.addObserver(self, selector: #selector(DATAStack.mainContextDidSave(_:)), name: .NSManagedObjectContextDidSave, object: context)
 
-        return context
-    }()
+                _mainContext = context
+            }
+
+            return _mainContext!
+        }
+    }
 
     /**
      The context for the main queue. Please do not use this to mutate data, use `performBackgroundTask`
@@ -52,21 +49,36 @@ import CoreData
         return self.mainContext
     }
 
-    private lazy var writerContext: NSManagedObjectContext = {
-        let context = NSManagedObjectContext(concurrencyType: DATAStack.backgroundConcurrencyType())
-        context.undoManager = nil
-        context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
-        context.persistentStoreCoordinator = self.persistentStoreCoordinator
+    private var _writerContext: NSManagedObjectContext?
 
-        return context
-    }()
+    private var writerContext: NSManagedObjectContext {
+        get {
+            if _writerContext == nil {
+                let context = NSManagedObjectContext(concurrencyType: DATAStack.backgroundConcurrencyType())
+                context.undoManager = nil
+                context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+                context.persistentStoreCoordinator = self.persistentStoreCoordinator
 
-    public private(set) lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
-        let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.model)
-        try! persistentStoreCoordinator.addPersistentStore(storeType: self.storeType, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL)
+                _writerContext = context
+            }
 
-        return persistentStoreCoordinator
-    }()
+            return _writerContext!
+        }
+    }
+
+    private var _persistentStoreCoordinator: NSPersistentStoreCoordinator?
+
+    private var persistentStoreCoordinator: NSPersistentStoreCoordinator {
+        get {
+            if _persistentStoreCoordinator == nil {
+                let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: self.model)
+                try! persistentStoreCoordinator.addPersistentStore(storeType: self.storeType, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL)
+                _persistentStoreCoordinator = persistentStoreCoordinator
+            }
+
+            return _persistentStoreCoordinator!
+        }
+    }
 
     private lazy var disposablePersistentStoreCoordinator: NSPersistentStoreCoordinator = {
         let model = NSManagedObjectModel(bundle: self.modelBundle, name: self.modelName)
@@ -252,7 +264,7 @@ import CoreData
         let contextBlock: @convention(block) () -> Void = {
             operation(context)
         }
-        let blockObject: AnyObject = unsafeBitCast(contextBlock, to: AnyObject.self)
+        let blockObject : AnyObject = unsafeBitCast(contextBlock, to: AnyObject.self)
         context.perform(DATAStack.performSelectorForBackgroundContext(), with: blockObject)
     }
 
@@ -266,7 +278,7 @@ import CoreData
 
     func saveMainThread(completion: ((_ error: NSError?) -> Void)?) {
         var writerContextError: NSError?
-        let writerContextBlock: @convention(block) () -> Void = {
+        let writerContextBlock: @convention(block) (Void) -> Void = {
             do {
                 try self.writerContext.save()
                 if TestCheck.isTesting {
@@ -276,45 +288,63 @@ import CoreData
                 writerContextError = parentError
             }
         }
-        let writerContextBlockObject: AnyObject = unsafeBitCast(writerContextBlock, to: AnyObject.self)
+        let writerContextBlockObject : AnyObject = unsafeBitCast(writerContextBlock, to: AnyObject.self)
 
-        let mainContextBlock: @convention(block) () -> Void = {
+        let mainContextBlock: @convention(block) (Void) -> Void = {
             self.writerContext.perform(DATAStack.performSelectorForBackgroundContext(), with: writerContextBlockObject)
             DispatchQueue.main.async {
                 completion?(writerContextError)
             }
         }
-        let mainContextBlockObject: AnyObject = unsafeBitCast(mainContextBlock, to: AnyObject.self)
+        let mainContextBlockObject : AnyObject = unsafeBitCast(mainContextBlock, to: AnyObject.self)
         self.mainContext.perform(DATAStack.performSelectorForBackgroundContext(), with: mainContextBlockObject)
+    }
+
+    /**
+     Drops the database. Useful for ObjC compatibility, since it doesn't allow `throws` Use `drop` in Swift.
+     */
+    public func forceDrop() {
+        try! drop()
     }
 
     /**
      Drops the database.
      */
-    public func drop(completion: ((_ error: NSError?) -> Void)? = nil) {
-        self.writerContext.performAndWait {
-            self.writerContext.reset()
+    public func drop() throws {
+        for store in self.persistentStoreCoordinator.persistentStores {
+            guard let storeURL = store.url else { throw NSError(info: "Persistent store url not found", previousError: nil) }
 
-            self.mainContext.performAndWait {
-                self.mainContext.reset()
+            let storePath = storeURL.path
+            let sqliteFile = (storePath as NSString).deletingPathExtension
+            let fileManager = FileManager.default
 
-                self.persistentStoreCoordinator.performAndWait {
-                    for store in self.persistentStoreCoordinator.persistentStores {
-                        guard let storeURL = store.url else { continue }
+            self._writerContext = nil
+            self._mainContext = nil
+            self._persistentStoreCoordinator = nil
 
-                        do {
-                            try self.persistentStoreCoordinator.destroyPersistentStore(at: storeURL, ofType: self.storeType.type, options: store.options)
-                            try! self.persistentStoreCoordinator.addPersistentStore(storeType: self.storeType, bundle: self.modelBundle, modelName: self.modelName, storeName: self.storeName, containerURL: self.containerURL)
+            let shm = sqliteFile + ".sqlite-shm"
+            if fileManager.fileExists(atPath: shm) {
+                do {
+                    try fileManager.removeItem(at: NSURL.fileURL(withPath: shm))
+                } catch let error as NSError {
+                    throw NSError(info: "Could not delete persistent store shm", previousError: error)
+                }
+            }
 
-                            DispatchQueue.main.async {
-                                completion?(nil)
-                            }
-                        } catch let error as NSError {
-                            DispatchQueue.main.async {
-                                completion?(NSError(info: "Failed dropping the data stack.", previousError: error))
-                            }
-                        }
-                    }
+            let wal = sqliteFile + ".sqlite-wal"
+            if fileManager.fileExists(atPath: wal) {
+                do {
+                    try fileManager.removeItem(at: NSURL.fileURL(withPath: wal))
+                } catch let error as NSError {
+                    throw NSError(info: "Could not delete persistent store wal", previousError: error)
+                }
+            }
+
+            if fileManager.fileExists(atPath: storePath) {
+                do {
+                    try fileManager.removeItem(at: storeURL)
+                } catch let error as NSError {
+                    throw NSError(info: "Could not delete sqlite file", previousError: error)
                 }
             }
         }
@@ -355,7 +385,7 @@ import CoreData
             let contextBlock: @convention(block) () -> Void = {
                 self.mainContext.mergeChanges(fromContextDidSave: notification)
             }
-            let blockObject: AnyObject = unsafeBitCast(contextBlock, to: AnyObject.self)
+            let blockObject : AnyObject = unsafeBitCast(contextBlock, to: AnyObject.self)
             self.mainContext.perform(DATAStack.performSelectorForBackgroundContext(), with: blockObject)
         }
     }
@@ -398,7 +428,7 @@ extension NSPersistentStoreCoordinator {
                 }
             }
 
-            let options = [NSMigratePersistentStoresAutomaticallyOption: true, NSInferMappingModelAutomaticallyOption: true]
+            let options = [NSMigratePersistentStoresAutomaticallyOption : true, NSInferMappingModelAutomaticallyOption : true]
             do {
                 try self.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: options)
             } catch {
@@ -432,7 +462,7 @@ extension NSManagedObjectModel {
     convenience init(bundle: Bundle, name: String) {
         if let momdModelURL = bundle.url(forResource: name, withExtension: "momd") {
             self.init(contentsOf: momdModelURL)!
-        } else if let momModelURL = bundle.url(forResource: name, withExtension: "mom") {
+        } else if let momModelURL = bundle.url(forResource:name, withExtension: "mom") {
             self.init(contentsOf: momModelURL)!
         } else {
             self.init()
@@ -452,7 +482,7 @@ extension NSError {
 
             self.init(domain: previousError.domain, code: previousError.code, userInfo: userInfo)
         } else {
-            var userInfo = [String: String]()
+            var userInfo = [String : String]()
             userInfo[NSLocalizedDescriptionKey] = info
             self.init(domain: "com.SyncDB.DATAStack", code: 9999, userInfo: userInfo)
         }

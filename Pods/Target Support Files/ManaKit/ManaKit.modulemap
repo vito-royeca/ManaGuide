@@ -1,0 +1,6 @@
+framework module ManaKit {
+  umbrella header "ManaKit-umbrella.h"
+
+  export *
+  module * { export * }
+}
