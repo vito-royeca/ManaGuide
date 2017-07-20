@@ -14,6 +14,10 @@
 		110BB5041F207C6400086841 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 110BB5021F207C6400086841 /* LaunchScreen.storyboard */; };
 		110BB50F1F207C6400086841 /* ManaGuideTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110BB50E1F207C6400086841 /* ManaGuideTests.swift */; };
 		110BB51A1F207C6400086841 /* ManaGuideUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110BB5191F207C6400086841 /* ManaGuideUITests.swift */; };
+		110BB52A1F20891D00086841 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110BB5291F20891D00086841 /* HomeViewController.swift */; };
+		110BB52B1F20891D00086841 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110BB5291F20891D00086841 /* HomeViewController.swift */; };
+		110BB52D1F20892B00086841 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110BB52C1F20892B00086841 /* SearchViewController.swift */; };
+		110BB52E1F20892B00086841 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110BB52C1F20892B00086841 /* SearchViewController.swift */; };
 		74354F476842033081184C2B /* Pods_ManaGuide.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBC4619D8E82345F50B95062 /* Pods_ManaGuide.framework */; };
 		C6B3BF0EAEFDFD7753AABDCA /* Pods_ManaGuideUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D468E164F8FD81E252338DF /* Pods_ManaGuideUITests.framework */; };
 		CF25780178833B6EA5E11C6F /* Pods_ManaGuideTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5D11A42B4FA676E10149FA9 /* Pods_ManaGuideTests.framework */; };
@@ -50,6 +54,8 @@
 		110BB5151F207C6400086841 /* ManaGuideUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ManaGuideUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		110BB5191F207C6400086841 /* ManaGuideUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManaGuideUITests.swift; sourceTree = "<group>"; };
 		110BB51B1F207C6400086841 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		110BB5291F20891D00086841 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		110BB52C1F20892B00086841 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		16CE1263B7BD598033CE1752 /* Pods-ManaGuideUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ManaGuideUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ManaGuideUITests/Pods-ManaGuideUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		24D1EA6B21F1DF4EBD57196F /* Pods-ManaGuide.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ManaGuide.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ManaGuide/Pods-ManaGuide.debug.xcconfig"; sourceTree = "<group>"; };
 		2C8C1EAFD37CC486643EE4F2 /* Pods-ManaGuideUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ManaGuideUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ManaGuideUITests/Pods-ManaGuideUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -125,11 +131,11 @@
 			isa = PBXGroup;
 			children = (
 				110BB4F91F207C6400086841 /* AppDelegate.swift */,
-				110BB4FB1F207C6400086841 /* ViewController.swift */,
-				110BB4FD1F207C6400086841 /* Main.storyboard */,
 				110BB5001F207C6400086841 /* Assets.xcassets */,
-				110BB5021F207C6400086841 /* LaunchScreen.storyboard */,
+				110BB5281F2084E100086841 /* Controller */,
 				110BB5051F207C6400086841 /* Info.plist */,
+				110BB5271F2084D600086841 /* View */,
+				110BB4FB1F207C6400086841 /* ViewController.swift */,
 			);
 			path = ManaGuide;
 			sourceTree = "<group>";
@@ -150,6 +156,24 @@
 				110BB51B1F207C6400086841 /* Info.plist */,
 			);
 			path = ManaGuideUITests;
+			sourceTree = "<group>";
+		};
+		110BB5271F2084D600086841 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				110BB5021F207C6400086841 /* LaunchScreen.storyboard */,
+				110BB4FD1F207C6400086841 /* Main.storyboard */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		110BB5281F2084E100086841 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				110BB5291F20891D00086841 /* HomeViewController.swift */,
+				110BB52C1F20892B00086841 /* SearchViewController.swift */,
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 		CCCF4703A6CA69F4288EC386 /* Pods */ = {
@@ -332,6 +356,10 @@
 				"${BUILT_PRODUCTS_DIR}/DATASource/DATASource.framework",
 				"${BUILT_PRODUCTS_DIR}/DATAStack/DATAStack.framework",
 				"${BUILT_PRODUCTS_DIR}/Kanna/Kanna.framework",
+				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/MMDrawerController/MMDrawerController.framework",
+				"${BUILT_PRODUCTS_DIR}/MMDrawerController+Storyboard/MMDrawerController_Storyboard.framework",
+				"${BUILT_PRODUCTS_DIR}/ManaKit/ManaKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Networking/Networking.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/ReachabilitySwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
@@ -342,6 +370,10 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DATASource.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DATAStack.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kanna.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MMDrawerController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MMDrawerController_Storyboard.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ManaKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Networking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReachabilitySwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
@@ -416,6 +448,10 @@
 				"${BUILT_PRODUCTS_DIR}/DATASource/DATASource.framework",
 				"${BUILT_PRODUCTS_DIR}/DATAStack/DATAStack.framework",
 				"${BUILT_PRODUCTS_DIR}/Kanna/Kanna.framework",
+				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/MMDrawerController/MMDrawerController.framework",
+				"${BUILT_PRODUCTS_DIR}/MMDrawerController+Storyboard/MMDrawerController_Storyboard.framework",
+				"${BUILT_PRODUCTS_DIR}/ManaKit/ManaKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Networking/Networking.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/ReachabilitySwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
@@ -426,6 +462,10 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DATASource.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DATAStack.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kanna.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MMDrawerController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MMDrawerController_Storyboard.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ManaKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Networking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReachabilitySwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
@@ -476,6 +516,9 @@
 				"${BUILT_PRODUCTS_DIR}/DATASource/DATASource.framework",
 				"${BUILT_PRODUCTS_DIR}/DATAStack/DATAStack.framework",
 				"${BUILT_PRODUCTS_DIR}/Kanna/Kanna.framework",
+				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/MMDrawerController/MMDrawerController.framework",
+				"${BUILT_PRODUCTS_DIR}/MMDrawerController+Storyboard/MMDrawerController_Storyboard.framework",
 				"${BUILT_PRODUCTS_DIR}/ManaKit/ManaKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Networking/Networking.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/ReachabilitySwift.framework",
@@ -487,6 +530,9 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DATASource.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DATAStack.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kanna.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MMDrawerController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MMDrawerController_Storyboard.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ManaKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Networking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReachabilitySwift.framework",
@@ -507,6 +553,8 @@
 			files = (
 				110BB4FC1F207C6400086841 /* ViewController.swift in Sources */,
 				110BB4FA1F207C6400086841 /* AppDelegate.swift in Sources */,
+				110BB52D1F20892B00086841 /* SearchViewController.swift in Sources */,
+				110BB52A1F20891D00086841 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -522,7 +570,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				110BB52E1F20892B00086841 /* SearchViewController.swift in Sources */,
 				110BB51A1F207C6400086841 /* ManaGuideUITests.swift in Sources */,
+				110BB52B1F20891D00086841 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -765,6 +815,7 @@
 				110BB5201F207C6400086841 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		110BB5211F207C6400086841 /* Build configuration list for PBXNativeTarget "ManaGuideTests" */ = {
 			isa = XCConfigurationList;
@@ -773,6 +824,7 @@
 				110BB5231F207C6400086841 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		110BB5241F207C6400086841 /* Build configuration list for PBXNativeTarget "ManaGuideUITests" */ = {
 			isa = XCConfigurationList;
@@ -781,6 +833,7 @@
 				110BB5261F207C6400086841 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
