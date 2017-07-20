@@ -2,35 +2,44 @@ platform :ios, "9.0"
 use_frameworks!
 
 target 'ManaGuide' do
-    pod 'Sync'
     pod 'DATASource'
     pod 'DATAStack'
     pod 'Kanna', '~> 2.1.0'
+    pod 'ManaKit'
+    pod 'MBProgressHUD'
+    pod 'MMDrawerController'
+    pod 'MMDrawerController+Storyboard'
     pod 'Networking'
     pod 'ReachabilitySwift'
     pod 'SSZipArchive'
-    pod 'ManaKit'
+    pod 'Sync'
 end
 
 target 'ManaGuideTests' do
-    pod 'Sync'
     pod 'DATASource'
     pod 'DATAStack'
     pod 'Kanna', '~> 2.1.0'
+    pod 'ManaKit'
+    pod 'MBProgressHUD'
+    pod 'MMDrawerController'
+    pod 'MMDrawerController+Storyboard'
     pod 'Networking'
     pod 'ReachabilitySwift'
     pod 'SSZipArchive'
- #   pod 'ManaKit'
+    pod 'Sync'
 end
 
 target 'ManaGuideUITests' do
-    pod 'Sync'
     pod 'DATASource'
     pod 'DATAStack'
     pod 'Kanna', '~> 2.1.0'
+    pod 'ManaKit'
+    pod 'MBProgressHUD'
+    pod 'MMDrawerController'
+    pod 'MMDrawerController+Storyboard'
     pod 'Networking'
     pod 'ReachabilitySwift'
     pod 'SSZipArchive'
-  #  pod 'ManaKit'
+    pod 'Sync'
 end
 

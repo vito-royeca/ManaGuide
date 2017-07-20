@@ -10,6 +10,21 @@ PODS:
     - ReachabilitySwift
     - SSZipArchive
     - Sync
+  - MBProgressHUD (1.0.0)
+  - MMDrawerController (0.6.0):
+    - MMDrawerController/Core (= 0.6.0)
+    - MMDrawerController/MMDrawerBarButtonItem (= 0.6.0)
+    - MMDrawerController/MMDrawerVisualStates (= 0.6.0)
+    - MMDrawerController/Subclass (= 0.6.0)
+  - MMDrawerController+Storyboard (0.0.2):
+    - MMDrawerController
+  - MMDrawerController/Core (0.6.0)
+  - MMDrawerController/MMDrawerBarButtonItem (0.6.0):
+    - MMDrawerController/Core
+  - MMDrawerController/MMDrawerVisualStates (0.6.0):
+    - MMDrawerController/Core
+  - MMDrawerController/Subclass (0.6.0):
+    - MMDrawerController/Core
   - Networking (3.0.3)
   - ReachabilitySwift (3)
   - SSZipArchive (2.0.1)
@@ -20,6 +35,9 @@ DEPENDENCIES:
   - DATAStack
   - Kanna (~> 2.1.0)
   - ManaKit
+  - MBProgressHUD
+  - MMDrawerController
+  - MMDrawerController+Storyboard
   - Networking
   - ReachabilitySwift
   - SSZipArchive
@@ -30,11 +48,14 @@ SPEC CHECKSUMS:
   DATAStack: 06d6a00f4fe84f11afdae2a6f47558f1087000e5
   Kanna: 9b4b086c218703f2b94f5b21a466217dd2f9332e
   ManaKit: 93f30d2e3a2444068a718ac0dbe9d9f48860072a
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  MMDrawerController: e3a54a5570388463ad3b36975251575b50c4e1a0
+  MMDrawerController+Storyboard: c98f86c0f32cdef1d466d19a7da3ad2fc6c6ac00
   Networking: e2c42013296d093e4249f8247acb08e36958a11a
   ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
   SSZipArchive: 6678776f378494909195d3f1b3f00d91e76084f9
   Sync: 7bf0699de46e470d68dc5f1f8408e4c19536c71f
 
-PODFILE CHECKSUM: a99f4f52128403d7e597b08e249544964ce7be38
+PODFILE CHECKSUM: 3a6a7c46a85079dcd42f1e30631e2347f8e228b4
 
 COCOAPODS: 1.3.0.beta.3
