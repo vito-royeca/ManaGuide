@@ -1,0 +1,30 @@
+PODS:
+  - DATASource (6.1.5)
+  - DATAStack (7.0.3)
+  - Kanna (2.1.1)
+  - Networking (3.0.3)
+  - ReachabilitySwift (3)
+  - SSZipArchive (2.0.0)
+  - Sync (3.3.0)
+
+DEPENDENCIES:
+  - DATASource
+  - DATAStack
+  - Kanna (~> 2.1.0)
+  - Networking
+  - ReachabilitySwift
+  - SSZipArchive
+  - Sync
+
+SPEC CHECKSUMS:
+  DATASource: 52b86cfff6c7ac3db45192c01f7839c7473576c3
+  DATAStack: b99efefa242ca4ef7f0af8f8ee5953ac644f04fe
+  Kanna: 9b4b086c218703f2b94f5b21a466217dd2f9332e
+  Networking: e2c42013296d093e4249f8247acb08e36958a11a
+  ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
+  SSZipArchive: 8153333145bf99acaf1918d257fdcef68a9269e1
+  Sync: 7bf0699de46e470d68dc5f1f8408e4c19536c71f
+
+PODFILE CHECKSUM: 571a6e8d8cc169f16e00c38c39799fb5c8c88568
+
+COCOAPODS: 1.3.0.beta.2
