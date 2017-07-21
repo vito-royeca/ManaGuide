@@ -10,7 +10,7 @@ import UIKit
 import DATASource
 import ManaKit
 
-class FeaturedViewController: UIViewController {
+class FeaturedViewController: BaseViewController {
 
     // MARK: Outlets
     @IBOutlet weak var tableView: UITableView!
@@ -24,7 +24,14 @@ class FeaturedViewController: UIViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showSets" {
+        if segue.identifier == "showSet" {
+            if let dest = segue.destination as? SetViewController,
+                let set = sender as? CMSet {
+                
+                dest.title = set.name
+                dest.set = set
+            }
+        } else if segue.identifier == "showSets" {
             if let dest = segue.destination as? SetsViewController {
                 dest.title = "Sets"
             }
@@ -67,7 +74,7 @@ extension FeaturedViewController : UITableViewDataSource {
                 c.titleLabel.text = "Latest Sets"
                 c.delegate = self
                 c.items = latestSets()
-                c.flowLayout.itemSize = CGSize(width: (c.collectionView.frame.size.width / 3) - 20, height: kSliderTableViewCellContentHeight)
+                c.flowLayout.itemSize = CGSize(width: (c.collectionView.frame.size.width / 3) - 20, height: kSliderTableViewCellContentHeight - 5)
                 c.flowLayout.scrollDirection = .horizontal
                 c.flowLayout.minimumInteritemSpacing = CGFloat(5)
                 c.collectionView.reloadData()
@@ -104,7 +111,9 @@ extension FeaturedViewController : SliderTableViewCellDelegate {
     }
     
     func showItem(item: AnyObject) {
-        print("showItem: \(item)")
+        if let set = item as? CMSet {
+            performSegue(withIdentifier: "showSet", sender: set)
+        }
     }
     
     func configureCell(cell: UICollectionViewCell, withItem item: AnyObject) {

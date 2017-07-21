@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MMDrawerController
 
 class BaseViewController: UIViewController {
 
@@ -17,6 +18,24 @@ class BaseViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-    
+    // MARK: Custom methods
+    func showRightMenu() {
+        if let navigationVC = mm_drawerController.rightDrawerViewController as? UINavigationController {
+            var menuView:MenuViewController?
+            
+            for drawer in navigationVC.viewControllers {
+                if drawer is MenuViewController {
+                    menuView = drawer as? MenuViewController
+                }
+            }
+            if menuView == nil {
+                menuView = MenuViewController()
+                navigationVC.addChildViewController(menuView!)
+            }
+            
+            navigationVC.popToViewController(menuView!, animated: true)
+        }
+        mm_drawerController.toggle(.right, animated:true, completion:nil)
+    }
 
 }

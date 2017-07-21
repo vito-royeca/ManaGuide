@@ -10,13 +10,18 @@ import UIKit
 import ManaKit
 import DATASource
 
-class SetsViewController: UIViewController {
+class SetsViewController: BaseViewController {
 
     // MARK: Variables
     var dataSource: DATASource?
 
     // MARK: Outlets
     @IBOutlet weak var tableView: UITableView!
+    
+    // MARK: actions
+    @IBAction func rightMenuAction(_ sender: UIBarButtonItem) {
+        showRightMenu()
+    }
     
     // MARK: Overrides
     override func viewDidLoad() {
@@ -26,6 +31,17 @@ class SetsViewController: UIViewController {
         dataSource = getDataSource(nil)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showSet" {
+            if let dest = segue.destination as? SetViewController,
+                let set = sender as? CMSet {
+                
+                dest.set = set
+                dest.title = set.name
+            }
+        }
+    }
+
     // MARK: Custom methods
     func getDataSource(_ fetchRequest: NSFetchRequest<NSFetchRequestResult>?) -> DATASource? {
         var request:NSFetchRequest<NSFetchRequestResult>?
@@ -62,4 +78,13 @@ class SetsViewController: UIViewController {
         return dataSource
     }
 
+}
+
+// MARK: UITableViewDelegate
+extension SetsViewController : UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let sets = dataSource!.all()
+        let set = sets[indexPath.row]
+        performSegue(withIdentifier: "showSet", sender: set)
+    }
 }

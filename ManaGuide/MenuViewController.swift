@@ -1,14 +1,14 @@
 //
-//  SearchViewController.swift
+//  MenuViewController.swift
 //  ManaGuide
 //
-//  Created by Jovito Royeca on 20/07/2017.
+//  Created by Jovito Royeca on 21/07/2017.
 //  Copyright © 2017 Jovito Royeca. All rights reserved.
 //
 
 import UIKit
 
-class SearchViewController: BaseViewController {
+class MenuViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
