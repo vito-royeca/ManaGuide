@@ -9,7 +9,7 @@
 import UIKit
 
 let kSliderTableViewCellHeight = CGFloat(140)
-let kSliderTableViewCellContentHeight = CGFloat(111)
+let kSliderTableViewCellContentHeight = CGFloat(112)
 
 @objc protocol SliderTableViewCellDelegate : NSObjectProtocol {
     func showAll()
@@ -40,7 +40,7 @@ class SliderTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        collectionView.register(UINib(nibName: "SetItemCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "SetCell")
+        collectionView.register(UINib(nibName: "SetItemSliderCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "SetCell")
         collectionView.dataSource = self
         collectionView.delegate = self
     }

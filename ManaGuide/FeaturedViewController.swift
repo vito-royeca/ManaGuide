@@ -23,6 +23,14 @@ class FeaturedViewController: UIViewController {
         tableView.register(UINib(nibName: "SliderTableViewCell", bundle: nil), forCellReuseIdentifier: "SetCell")
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showSets" {
+            if let dest = segue.destination as? SetsViewController {
+                dest.title = "Sets"
+            }
+        }
+    }
+
     // MARK: Custom methods
     func latestSets() -> [CMSet]? {
         var sets:[CMSet]?
@@ -61,6 +69,7 @@ extension FeaturedViewController : UITableViewDataSource {
                 c.items = latestSets()
                 c.flowLayout.itemSize = CGSize(width: (c.collectionView.frame.size.width / 3) - 20, height: kSliderTableViewCellContentHeight)
                 c.flowLayout.scrollDirection = .horizontal
+                c.flowLayout.minimumInteritemSpacing = CGFloat(5)
                 c.collectionView.reloadData()
                 cell = c
             }
@@ -91,7 +100,7 @@ extension FeaturedViewController : UITableViewDelegate {
 // MARK: SliderTableViewCellDelegate
 extension FeaturedViewController : SliderTableViewCellDelegate {
     func showAll() {
-        print("showAll")
+        performSegue(withIdentifier: "showSets", sender: nil)
     }
     
     func showItem(item: AnyObject) {
@@ -99,12 +108,12 @@ extension FeaturedViewController : SliderTableViewCellDelegate {
     }
     
     func configureCell(cell: UICollectionViewCell, withItem item: AnyObject) {
-        if let cell = cell as? SetItemCollectionViewCell,
+        if let cell = cell as? SetItemSliderCollectionViewCell,
             let item = item as? CMSet {
             
             if let rarity = ManaKit.sharedInstance.findOrCreateObject("CMRarity", objectFinder: ["name": "Common" as AnyObject]) as? CMRarity {
-                cell.titleLabel.text = item.name
                 cell.iconView.image = ManaKit.sharedInstance.setImage(set: item, rarity: rarity)
+                cell.titleLabel.text = item.name
             }
         }
     }

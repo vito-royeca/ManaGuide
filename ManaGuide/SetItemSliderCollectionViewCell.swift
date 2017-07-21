@@ -1,5 +1,5 @@
 //
-//  SetItemCollectionViewCell.swift
+//  SetItemSliderCollectionViewCell.swift
 //  ManaGuide
 //
 //  Created by Jovito Royeca on 21/07/2017.
@@ -8,18 +8,18 @@
 
 import UIKit
 
-class SetItemCollectionViewCell: UICollectionViewCell {
+class SetItemSliderCollectionViewCell: UICollectionViewCell {
 
     // MARK: Outlets
     @IBOutlet weak var iconView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
-    
+
     // MARK: Overrides
     override func awakeFromNib() {
         super.awakeFromNib()
+
         // Initialization code
         titleLabel.adjustsFontSizeToFitWidth = true
-//        titleLabel.autoresizingMask = true
     }
 
 }
