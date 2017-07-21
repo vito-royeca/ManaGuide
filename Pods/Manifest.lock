@@ -2,7 +2,7 @@ PODS:
   - DATASource (6.1.5)
   - DATAStack (6.2.0)
   - Kanna (2.1.1)
-  - ManaKit (0.7.1):
+  - ManaKit (0.7.2):
     - DATASource
     - DATAStack (~> 6)
     - Kanna
@@ -47,7 +47,7 @@ SPEC CHECKSUMS:
   DATASource: 52b86cfff6c7ac3db45192c01f7839c7473576c3
   DATAStack: 06d6a00f4fe84f11afdae2a6f47558f1087000e5
   Kanna: 9b4b086c218703f2b94f5b21a466217dd2f9332e
-  ManaKit: 759091c33c8696ba60a77e24ba430995d5f336dc
+  ManaKit: 6f3587dbcc813a5d7c4db937fdcf7ab26917d182
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   MMDrawerController: e3a54a5570388463ad3b36975251575b50c4e1a0
   MMDrawerController+Storyboard: c98f86c0f32cdef1d466d19a7da3ad2fc6c6ac00

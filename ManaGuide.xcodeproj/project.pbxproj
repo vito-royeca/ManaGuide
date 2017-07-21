@@ -14,10 +14,18 @@
 		110BB5041F207C6400086841 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 110BB5021F207C6400086841 /* LaunchScreen.storyboard */; };
 		110BB50F1F207C6400086841 /* ManaGuideTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110BB50E1F207C6400086841 /* ManaGuideTests.swift */; };
 		110BB51A1F207C6400086841 /* ManaGuideUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110BB5191F207C6400086841 /* ManaGuideUITests.swift */; };
-		110BB52A1F20891D00086841 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110BB5291F20891D00086841 /* HomeViewController.swift */; };
-		110BB52B1F20891D00086841 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110BB5291F20891D00086841 /* HomeViewController.swift */; };
+		110BB52A1F20891D00086841 /* FeaturedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110BB5291F20891D00086841 /* FeaturedViewController.swift */; };
+		110BB52B1F20891D00086841 /* FeaturedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110BB5291F20891D00086841 /* FeaturedViewController.swift */; };
 		110BB52D1F20892B00086841 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110BB52C1F20892B00086841 /* SearchViewController.swift */; };
 		110BB52E1F20892B00086841 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110BB52C1F20892B00086841 /* SearchViewController.swift */; };
+		1147B7491F21F340004EF296 /* SliderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1147B7471F21F340004EF296 /* SliderTableViewCell.swift */; };
+		1147B74A1F21F340004EF296 /* SliderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1147B7471F21F340004EF296 /* SliderTableViewCell.swift */; };
+		1147B74B1F21F340004EF296 /* SliderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1147B7481F21F340004EF296 /* SliderTableViewCell.xib */; };
+		1147B74C1F21F340004EF296 /* SliderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1147B7481F21F340004EF296 /* SliderTableViewCell.xib */; };
+		1147B7521F21FC76004EF296 /* SetItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1147B7501F21FC76004EF296 /* SetItemCollectionViewCell.swift */; };
+		1147B7531F21FC76004EF296 /* SetItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1147B7501F21FC76004EF296 /* SetItemCollectionViewCell.swift */; };
+		1147B7541F21FC76004EF296 /* SetItemCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1147B7511F21FC76004EF296 /* SetItemCollectionViewCell.xib */; };
+		1147B7551F21FC76004EF296 /* SetItemCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1147B7511F21FC76004EF296 /* SetItemCollectionViewCell.xib */; };
 		74354F476842033081184C2B /* Pods_ManaGuide.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBC4619D8E82345F50B95062 /* Pods_ManaGuide.framework */; };
 		C6B3BF0EAEFDFD7753AABDCA /* Pods_ManaGuideUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D468E164F8FD81E252338DF /* Pods_ManaGuideUITests.framework */; };
 		CF25780178833B6EA5E11C6F /* Pods_ManaGuideTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5D11A42B4FA676E10149FA9 /* Pods_ManaGuideTests.framework */; };
@@ -54,8 +62,12 @@
 		110BB5151F207C6400086841 /* ManaGuideUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ManaGuideUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		110BB5191F207C6400086841 /* ManaGuideUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManaGuideUITests.swift; sourceTree = "<group>"; };
 		110BB51B1F207C6400086841 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		110BB5291F20891D00086841 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		110BB5291F20891D00086841 /* FeaturedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedViewController.swift; sourceTree = "<group>"; };
 		110BB52C1F20892B00086841 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		1147B7471F21F340004EF296 /* SliderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderTableViewCell.swift; sourceTree = "<group>"; };
+		1147B7481F21F340004EF296 /* SliderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SliderTableViewCell.xib; sourceTree = "<group>"; };
+		1147B7501F21FC76004EF296 /* SetItemCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetItemCollectionViewCell.swift; sourceTree = "<group>"; };
+		1147B7511F21FC76004EF296 /* SetItemCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SetItemCollectionViewCell.xib; sourceTree = "<group>"; };
 		16CE1263B7BD598033CE1752 /* Pods-ManaGuideUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ManaGuideUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ManaGuideUITests/Pods-ManaGuideUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		24D1EA6B21F1DF4EBD57196F /* Pods-ManaGuide.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ManaGuide.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ManaGuide/Pods-ManaGuide.debug.xcconfig"; sourceTree = "<group>"; };
 		2C8C1EAFD37CC486643EE4F2 /* Pods-ManaGuideUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ManaGuideUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ManaGuideUITests/Pods-ManaGuideUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -163,6 +175,10 @@
 			children = (
 				110BB5021F207C6400086841 /* LaunchScreen.storyboard */,
 				110BB4FD1F207C6400086841 /* Main.storyboard */,
+				1147B7471F21F340004EF296 /* SliderTableViewCell.swift */,
+				1147B7481F21F340004EF296 /* SliderTableViewCell.xib */,
+				1147B7501F21FC76004EF296 /* SetItemCollectionViewCell.swift */,
+				1147B7511F21FC76004EF296 /* SetItemCollectionViewCell.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -170,7 +186,7 @@
 		110BB5281F2084E100086841 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				110BB5291F20891D00086841 /* HomeViewController.swift */,
+				110BB5291F20891D00086841 /* FeaturedViewController.swift */,
 				110BB52C1F20892B00086841 /* SearchViewController.swift */,
 			);
 			name = Controller;
@@ -308,8 +324,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1147B7541F21FC76004EF296 /* SetItemCollectionViewCell.xib in Resources */,
 				110BB5041F207C6400086841 /* LaunchScreen.storyboard in Resources */,
 				110BB5011F207C6400086841 /* Assets.xcassets in Resources */,
+				1147B74B1F21F340004EF296 /* SliderTableViewCell.xib in Resources */,
 				110BB4FF1F207C6400086841 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -325,6 +343,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1147B7551F21FC76004EF296 /* SetItemCollectionViewCell.xib in Resources */,
+				1147B74C1F21F340004EF296 /* SliderTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -551,10 +571,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1147B7521F21FC76004EF296 /* SetItemCollectionViewCell.swift in Sources */,
 				110BB4FC1F207C6400086841 /* ViewController.swift in Sources */,
 				110BB4FA1F207C6400086841 /* AppDelegate.swift in Sources */,
 				110BB52D1F20892B00086841 /* SearchViewController.swift in Sources */,
-				110BB52A1F20891D00086841 /* HomeViewController.swift in Sources */,
+				110BB52A1F20891D00086841 /* FeaturedViewController.swift in Sources */,
+				1147B7491F21F340004EF296 /* SliderTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -572,7 +594,9 @@
 			files = (
 				110BB52E1F20892B00086841 /* SearchViewController.swift in Sources */,
 				110BB51A1F207C6400086841 /* ManaGuideUITests.swift in Sources */,
-				110BB52B1F20891D00086841 /* HomeViewController.swift in Sources */,
+				1147B7531F21FC76004EF296 /* SetItemCollectionViewCell.swift in Sources */,
+				1147B74A1F21F340004EF296 /* SliderTableViewCell.swift in Sources */,
+				110BB52B1F20891D00086841 /* FeaturedViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

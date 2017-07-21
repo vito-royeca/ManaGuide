@@ -58,18 +58,26 @@ open class ManaKit: NSObject {
         }
     }
     
+    // MARK: Resource methods
     /*
      * Example path: "/images/set/2ED/C/48.png"
      */
     open func imageFromFramework(imageName: ImageName) -> UIImage? {
         let bundle = Bundle(for: ManaKit.self)
-//        let subDir = "images"
-        let resource = imageName.rawValue
         
-        if let url = bundle.url(forResource: resource, withExtension: "png", subdirectory: nil/*subDir*/) {
-            let data = try! Data(contentsOf: url)
-            return UIImage(data: data)
+        if let bundleURL = bundle.resourceURL?.appendingPathComponent("ManaKit.bundle") {
+            let resourceBundle = Bundle(url: bundleURL)
+            return UIImage(named: imageName.rawValue, in: resourceBundle, compatibleWith: nil)
         }
+        
+//        let bundle = Bundle(for: ManaKit.self)
+//        let subDir = "images"
+//        let resource = imageName.rawValue
+//        
+//        if let url = bundle.url(forResource: resource, withExtension: "png", subdirectory: subDir) {
+//            let data = try! Data(contentsOf: url)
+//            return UIImage(data: data)
+//        }
         
         return nil
     }
@@ -86,14 +94,19 @@ open class ManaKit: NSObject {
                 prefix = "C"
             }
         }
-    
-        var image = UIImage(named: "\(set.code!)-\(prefix)", in: bundle, compatibleWith: nil)
-        
-        if image == nil {
-            image = UIImage(named: "DEFAULT-\(prefix)", in: bundle, compatibleWith: nil)
+
+        if let bundleURL = bundle.resourceURL?.appendingPathComponent("ManaKit.bundle") {
+            let resourceBundle = Bundle(url: bundleURL)
+            var image = UIImage(named: "\(set.code!)-\(prefix)", in: resourceBundle, compatibleWith: nil)
+            
+            if image == nil {
+                image = UIImage(named: "DEFAULT-\(prefix)", in: resourceBundle, compatibleWith: nil)
+            }
+
+            return image
         }
         
-        return image
+        return nil
     }
     
     open func manaImages(manaCost: String) -> [[String:UIImage]] {
@@ -105,24 +118,28 @@ open class ManaKit: NSObject {
             .replacingOccurrences(of: "/", with: "")
         let manaArray = mc.components(separatedBy: " ")
         
-        for mana in manaArray {
-            if mana.characters.count == 0 {
-                continue
-            }
+        if let bundleURL = bundle.resourceURL?.appendingPathComponent("ManaKit.bundle") {
+            let resourceBundle = Bundle(url: bundleURL)
             
-            var image = UIImage(named: "mana-\(mana)", in: bundle, compatibleWith: nil)
-            
-            // fix for dual manas
-            if image == nil {
-                if mana.characters.count > 1 {
-                    let reversedMana = String(mana.characters.reversed())
-
-                    image = UIImage(named: "mana-\(reversedMana)", in: bundle, compatibleWith: nil)
+            for mana in manaArray {
+                if mana.characters.count == 0 {
+                    continue
                 }
-            }
-            
-            if let image = image {
-                array.append([mana:image])
+                
+                var image = UIImage(named: "mana-\(mana)", in: resourceBundle, compatibleWith: nil)
+                
+                // fix for dual manas
+                if image == nil {
+                    if mana.characters.count > 1 {
+                        let reversedMana = String(mana.characters.reversed())
+
+                        image = UIImage(named: "mana-\(reversedMana)", in: resourceBundle, compatibleWith: nil)
+                    }
+                }
+                
+                if let image = image {
+                    array.append([mana:image])
+                }
             }
         }
         
@@ -132,12 +149,25 @@ open class ManaKit: NSObject {
     open func symbolImage(name: String) -> UIImage? {
         let bundle = Bundle(for: ManaKit.self)
         
-        return UIImage(named: name, in: bundle, compatibleWith: nil)
+        if let bundleURL = bundle.resourceURL?.appendingPathComponent("ManaKit.bundle") {
+            let resourceBundle = Bundle(url: bundleURL)
+            
+            return UIImage(named: name, in: resourceBundle, compatibleWith: nil)
+        }
+        
+        return nil
     }
     
-    open func nibFromBundle(_ name: String) -> UINib {
+    open func nibFromBundle(_ name: String) -> UINib? {
         let bundle = Bundle(for: ManaKit.self)
-        return UINib(nibName: name, bundle: bundle)
+        
+        if let bundleURL = bundle.resourceURL?.appendingPathComponent("ManaKit.bundle") {
+            let resourceBundle = Bundle(url: bundleURL)
+            
+            return UINib(nibName: name, bundle: resourceBundle)
+        }
+        
+        return nil
     }
     
     open func setupResources() {
@@ -148,45 +178,49 @@ open class ManaKit: NSObject {
     func copyDatabaseFile() {
         let bundle = Bundle(for: ManaKit.self)
         
-        if let docsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first,
-            let sourcePath = bundle.path(forResource: "ManaKit.sqlite", ofType: "zip"),
-            let bundleName = Bundle.main.infoDictionary?["CFBundleName"] as? String {
+        if let bundleURL = bundle.resourceURL?.appendingPathComponent("ManaKit.bundle") {
+            let resourceBundle = Bundle(url: bundleURL)
             
-            var willCopy = true
+            if let docsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first,
+                let sourcePath = resourceBundle?.path(forResource: "ManaKit.sqlite", ofType: "zip"),
+                let bundleName = Bundle.main.infoDictionary?["CFBundleName"] as? String {
+                
+                var willCopy = true
 
-            // Check if we have old files
-            let targetPath = "\(docsPath)/\(bundleName).sqlite"
-            willCopy = !FileManager.default.fileExists(atPath: targetPath)
-            
-            // Check if we saved the version number
-            if let version = UserDefaults.standard.object(forKey: kMTGJSONVersionKey) as? String {
-                willCopy = version != kMTGJSONVersion
-            }
-            
-            if willCopy {
-                // Remove old database files
-                for file in try! FileManager.default.contentsOfDirectory(atPath: docsPath) {
-                    let path = "\(docsPath)/\(file)"
-                    if file.hasPrefix(bundleName) {
-                        try! FileManager.default.removeItem(atPath: path)
-                    }
+                // Check if we have old files
+                let targetPath = "\(docsPath)/\(bundleName).sqlite"
+                willCopy = !FileManager.default.fileExists(atPath: targetPath)
+                
+                // Check if we saved the version number
+                if let version = UserDefaults.standard.object(forKey: kMTGJSONVersionKey) as? String {
+                    willCopy = version != kMTGJSONVersion
                 }
                 
-                // Unzip
-                SSZipArchive.unzipFile(atPath: sourcePath, toDestination: docsPath)
-                
-                // rename
-                try! FileManager.default.moveItem(atPath: "\(docsPath)/ManaKit.sqlite", toPath: targetPath)
-                
-                // skip from iCloud backups!
-                var targetURL = URL(fileURLWithPath: targetPath)
-                var resourceValues = URLResourceValues()
-                resourceValues.isExcludedFromBackup = true
-                try! targetURL.setResourceValues(resourceValues)
-                
-                // Save the version
-                UserDefaults.standard.set(kMTGJSONVersion, forKey: kMTGJSONVersionKey)
-                UserDefaults.standard.synchronize()
+                if willCopy {
+                    // Remove old database files
+                    for file in try! FileManager.default.contentsOfDirectory(atPath: docsPath) {
+                        let path = "\(docsPath)/\(file)"
+                        if file.hasPrefix(bundleName) {
+                            try! FileManager.default.removeItem(atPath: path)
+                        }
+                    }
+                    
+                    // Unzip
+                    SSZipArchive.unzipFile(atPath: sourcePath, toDestination: docsPath)
+                    
+                    // rename
+                    try! FileManager.default.moveItem(atPath: "\(docsPath)/ManaKit.sqlite", toPath: targetPath)
+                    
+                    // skip from iCloud backups!
+                    var targetURL = URL(fileURLWithPath: targetPath)
+                    var resourceValues = URLResourceValues()
+                    resourceValues.isExcludedFromBackup = true
+                    try! targetURL.setResourceValues(resourceValues)
+                    
+                    // Save the version
+                    UserDefaults.standard.set(kMTGJSONVersion, forKey: kMTGJSONVersionKey)
+                    UserDefaults.standard.synchronize()
+                }
             }
         }
     }
@@ -194,17 +228,21 @@ open class ManaKit: NSObject {
     func loadCustomFonts() {
         let bundle = Bundle(for: ManaKit.self)
         
-        if let urls = bundle.urls(forResourcesWithExtension: "ttf", subdirectory: nil/*"fonts"*/) {
-            for url in urls {
-                let data = try! Data(contentsOf: url)
-                let error: UnsafeMutablePointer<Unmanaged<CFError>?>? = nil
-                guard let provider = CGDataProvider(data: data as CFData) else { return }
-                let font = CGFont(provider)
-                
-                if !CTFontManagerRegisterGraphicsFont(font, error) {
-                    if let unmanagedError = error?.pointee {
-                        if let errorDescription = CFErrorCopyDescription(unmanagedError.takeUnretainedValue()) {
-                            print("Failed to load font: \(errorDescription)")
+        if let bundleURL = bundle.resourceURL?.appendingPathComponent("ManaKit.bundle") {
+            let resourceBundle = Bundle(url: bundleURL)
+            
+            if let urls = resourceBundle?.urls(forResourcesWithExtension: "ttf", subdirectory: nil/*"fonts"*/) {
+                for url in urls {
+                    let data = try! Data(contentsOf: url)
+                    let error: UnsafeMutablePointer<Unmanaged<CFError>?>? = nil
+                    guard let provider = CGDataProvider(data: data as CFData) else { return }
+                    let font = CGFont(provider)
+                    
+                    if !CTFontManagerRegisterGraphicsFont(font, error) {
+                        if let unmanagedError = error?.pointee {
+                            if let errorDescription = CFErrorCopyDescription(unmanagedError.takeUnretainedValue()) {
+                                print("Failed to load font: \(errorDescription)")
+                            }
                         }
                     }
                 }
@@ -212,37 +250,41 @@ open class ManaKit: NSObject {
         }
     }
     
-    func unpackImages() {
-        if let cachePath = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first {
-            var willCopy = true
-            
-            let targetPath = "\(cachePath)/images"
-            willCopy = !FileManager.default.fileExists(atPath: targetPath)
-            
-            // Check if we saved the version number
-            if let version = UserDefaults.standard.object(forKey: kImagesVersionKey) as? String {
-                willCopy = version != kImagesVersion
-            }
-            
-            if willCopy {
-                let bundle = Bundle(for: ManaKit.self)
-                
-                // Remove old images dir
-                if FileManager.default.fileExists(atPath: targetPath) {
-                    try! FileManager.default.removeItem(atPath: targetPath)
-                }
-                
-                if let sourcePath = bundle.path(forResource: "images", ofType: "zip") {
-                    // Unzip
-                    try! SSZipArchive.unzipFile(atPath: sourcePath, toDestination: cachePath, overwrite: true, password: nil)
-                    
-                    // Save the version
-                    UserDefaults.standard.set(kImagesVersion, forKey: kImagesVersionKey)
-                    UserDefaults.standard.synchronize()
-                }
-            }
-        }
-    }
+//    func unpackImages() {
+//        if let cachePath = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first {
+//            var willCopy = true
+//            
+//            let targetPath = "\(cachePath)/images"
+//            willCopy = !FileManager.default.fileExists(atPath: targetPath)
+//            
+//            // Check if we saved the version number
+//            if let version = UserDefaults.standard.object(forKey: kImagesVersionKey) as? String {
+//                willCopy = version != kImagesVersion
+//            }
+//            
+//            if willCopy {
+//                let bundle = Bundle(for: ManaKit.self)
+//                
+//                if let bundleURL = bundle.resourceURL?.appendingPathComponent("ManaKit.bundle") {
+//                    let resourceBundle = Bundle(url: bundleURL)
+//                    
+//                    // Remove old images dir
+//                    if FileManager.default.fileExists(atPath: targetPath) {
+//                        try! FileManager.default.removeItem(atPath: targetPath)
+//                    }
+//                    
+//                    if let sourcePath = resourceBundle?.path(forResource: "images", ofType: "zip") {
+//                        // Unzip
+//                        try! SSZipArchive.unzipFile(atPath: sourcePath, toDestination: cachePath, overwrite: true, password: nil)
+//                        
+//                        // Save the version
+//                        UserDefaults.standard.set(kImagesVersion, forKey: kImagesVersionKey)
+//                        UserDefaults.standard.synchronize()
+//                    }
+//                }
+//            }
+//        }
+//    }
     
     // MARK: Database methods
     open func findOrCreateObject(_ entityName: String, objectFinder: [String: AnyObject]?) -> NSManagedObject? {
