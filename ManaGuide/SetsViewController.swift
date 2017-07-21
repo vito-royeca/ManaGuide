@@ -59,6 +59,7 @@ class SetsViewController: BaseViewController {
             request = fetchRequest
         } else {
             request = NSFetchRequest(entityName: "CMSet")
+            // TODO: get key and ascending from UserDefaults
             request!.sortDescriptors = [NSSortDescriptor(key: "releaseDate", ascending: false)]
         }
         

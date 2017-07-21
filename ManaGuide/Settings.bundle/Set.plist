@@ -30,6 +30,26 @@
 			<key>Type</key>
 			<string>PSRadioGroupSpecifier</string>
 			<key>Title</key>
+			<string>Order By</string>
+			<key>Key</key>
+			<string>setOrderBy</string>
+			<key>DefaultValue</key>
+			<integer>1</integer>
+			<key>Values</key>
+			<array>
+				<integer>1</integer>
+				<integer>2</integer>
+			</array>
+			<key>Titles</key>
+			<array>
+				<string>Ascending</string>
+				<string>Descending</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSRadioGroupSpecifier</string>
+			<key>Title</key>
 			<string>Display By</string>
 			<key>Key</key>
 			<string>setDisplayBy</string>

@@ -9,6 +9,7 @@
 import UIKit
 import DATASource
 import FontAwesome_swift
+import InAppSettingsKit
 import ManaKit
 
 class SetViewController: BaseViewController {
@@ -34,6 +35,9 @@ class SetViewController: BaseViewController {
         // Do any additional setup after loading the view.
         dataSource = getDataSource(nil)
         
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kIASKAppSettingChanged), object:nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SetViewController.updateData(_:)), name: NSNotification.Name(rawValue: kIASKAppSettingChanged), object: nil)
+        
         rightMenuButton.image = UIImage.fontAwesomeIcon(name: .gear, textColor: UIColor.white, size: CGSize(width: 30, height: 30))
         rightMenuButton.title = nil
         tableView.register(ManaKit.sharedInstance.nibFromBundle("CardTableViewCell"), forCellReuseIdentifier: "CardCell")
@@ -48,9 +52,8 @@ class SetViewController: BaseViewController {
         } else {
             request = NSFetchRequest(entityName: "CMCard")
             request!.predicate = NSPredicate(format: "set.code = %@", set!.code!)
-            request!.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true),
-                                        NSSortDescriptor(key: "number", ascending: true),
-                                        NSSortDescriptor(key: "mciNumber", ascending: true)]
+            // TODO: get key and ascending from UserDefaults
+            request!.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         }
         
         let dataSource = DATASource(tableView: tableView, cellIdentifier: "CardCell", fetchRequest: request!, mainContext: ManaKit.sharedInstance.dataStack!.mainContext, configuration: { cell, item, indexPath in
@@ -65,6 +68,45 @@ class SetViewController: BaseViewController {
         return dataSource
     }
     
+    func updateData(_ notification: Notification) {
+        if let userInfo = notification.userInfo as? [String: Any] {
+            var key = "name"
+            var ascending = false
+            
+            if let value = userInfo["setSortBy"] as? NSNumber {
+                switch value {
+                case 1:
+                    key = "name"
+                case 2:
+                    key = "mciNumber"
+                default:
+                    ()
+                }
+            }
+            
+            if let value = userInfo["setOrderBy"] as? NSNumber {
+                switch value {
+                case 1:
+                    ascending = true
+                case 2:
+                    ascending = false
+                default:
+                    ()
+                }
+            }
+            
+            // TODO: fi if there's no key or ascending
+            // TODO: handle setDisplayBy
+            // TODO: handle setShow
+            
+            let request:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CMCard")
+            request.predicate = NSPredicate(format: "set.code = %@", set!.code!)
+            request.sortDescriptors = [NSSortDescriptor(key: key, ascending: ascending ? true : false)]
+
+            dataSource = getDataSource(request)
+            tableView.reloadData()
+        }
+    }
 
 }
 
