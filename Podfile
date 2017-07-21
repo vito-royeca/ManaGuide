@@ -4,6 +4,8 @@ use_frameworks!
 target 'ManaGuide' do
     pod 'DATASource'
     pod 'DATAStack'
+    pod 'FontAwesome.swift'
+    pod 'InAppSettingsKit'
     pod 'Kanna', '~> 2.1.0'
     pod 'ManaKit'
     pod 'MBProgressHUD'
@@ -18,6 +20,8 @@ end
 target 'ManaGuideTests' do
     pod 'DATASource'
     pod 'DATAStack'
+    pod 'FontAwesome.swift'
+    pod 'InAppSettingsKit'
     pod 'Kanna', '~> 2.1.0'
     pod 'ManaKit'
     pod 'MBProgressHUD'
@@ -32,6 +36,8 @@ end
 target 'ManaGuideUITests' do
     pod 'DATASource'
     pod 'DATAStack'
+    pod 'FontAwesome.swift'
+    pod 'InAppSettingsKit'
     pod 'Kanna', '~> 2.1.0'
     pod 'ManaKit'
     pod 'MBProgressHUD'

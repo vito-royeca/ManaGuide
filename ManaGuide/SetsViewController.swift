@@ -7,8 +7,10 @@
 //
 
 import UIKit
-import ManaKit
 import DATASource
+import FontAwesome_swift
+import InAppSettingsKit
+import ManaKit
 
 class SetsViewController: BaseViewController {
 
@@ -16,11 +18,12 @@ class SetsViewController: BaseViewController {
     var dataSource: DATASource?
 
     // MARK: Outlets
+    @IBOutlet weak var rightMenuButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     
     // MARK: actions
     @IBAction func rightMenuAction(_ sender: UIBarButtonItem) {
-        showRightMenu()
+        showSettingsMenu(file: "Sets")
     }
     
     // MARK: Overrides
@@ -29,6 +32,12 @@ class SetsViewController: BaseViewController {
 
         // Do any additional setup after loading the view.
         dataSource = getDataSource(nil)
+        
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kIASKAppSettingChanged), object:nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SetsViewController.updateData(_:)), name: NSNotification.Name(rawValue: kIASKAppSettingChanged), object: nil)
+        
+        rightMenuButton.image = UIImage.fontAwesomeIcon(name: .gear, textColor: UIColor.white, size: CGSize(width: 30, height: 30))
+        rightMenuButton.title = nil
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -78,6 +87,42 @@ class SetsViewController: BaseViewController {
         return dataSource
     }
 
+    func updateData(_ notification: Notification) {
+        if let userInfo = notification.userInfo as? [String: Any] {
+            var key = "releaseDate"
+            var ascending = false
+            
+            if let value = userInfo["setsSortBy"] as? NSNumber {
+                switch value {
+                case 1:
+                    key = "releaseDate"
+                case 2:
+                    key = "name"
+                case 3:
+                    key = "type_.name"
+                default:
+                    ()
+                }
+            }
+            
+            if let value = userInfo["setsOrderBy"] as? NSNumber {
+                switch value {
+                case 1:
+                    ascending = true
+                case 2:
+                    ascending = false
+                default:
+                    ()
+                }
+            }
+            
+            let request:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CMSet")
+            request.sortDescriptors = [NSSortDescriptor(key: key, ascending: ascending ? true : false)]
+            
+            dataSource = getDataSource(request)
+            tableView.reloadData()
+        }
+    }
 }
 
 // MARK: UITableViewDelegate

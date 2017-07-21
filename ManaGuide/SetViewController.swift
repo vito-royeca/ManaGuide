@@ -7,8 +7,9 @@
 //
 
 import UIKit
-import ManaKit
 import DATASource
+import FontAwesome_swift
+import ManaKit
 
 class SetViewController: BaseViewController {
 
@@ -17,11 +18,12 @@ class SetViewController: BaseViewController {
     var dataSource: DATASource?
 
     // MARK: Outlets
+    @IBOutlet weak var rightMenuButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     
     // MARK: Actions
     @IBAction func showRightMenuAction(_ sender: UIBarButtonItem) {
-        showRightMenu()
+        showSettingsMenu(file: "Set")
     }
     
     
@@ -30,9 +32,11 @@ class SetViewController: BaseViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        tableView.register(ManaKit.sharedInstance.nibFromBundle("CardTableViewCell"), forCellReuseIdentifier: "CardCell")
-        
         dataSource = getDataSource(nil)
+        
+        rightMenuButton.image = UIImage.fontAwesomeIcon(name: .gear, textColor: UIColor.white, size: CGSize(width: 30, height: 30))
+        rightMenuButton.title = nil
+        tableView.register(ManaKit.sharedInstance.nibFromBundle("CardTableViewCell"), forCellReuseIdentifier: "CardCell")
     }
 
     // MARK: Custom methods

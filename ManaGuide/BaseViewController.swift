@@ -19,21 +19,23 @@ class BaseViewController: UIViewController {
     }
 
     // MARK: Custom methods
-    func showRightMenu() {
+    func showSettingsMenu(file: String) {
         if let navigationVC = mm_drawerController.rightDrawerViewController as? UINavigationController {
-            var menuView:MenuViewController?
+            var settingsView:SettingsViewController?
             
             for drawer in navigationVC.viewControllers {
-                if drawer is MenuViewController {
-                    menuView = drawer as? MenuViewController
+                if drawer is SettingsViewController {
+                    settingsView = drawer as? SettingsViewController
                 }
             }
-            if menuView == nil {
-                menuView = MenuViewController()
-                navigationVC.addChildViewController(menuView!)
+            if settingsView == nil {
+                settingsView = SettingsViewController()
+                navigationVC.addChildViewController(settingsView!)
             }
             
-            navigationVC.popToViewController(menuView!, animated: true)
+            settingsView!.showCreditsFooter = false
+            settingsView!.file = file
+            navigationVC.popToViewController(settingsView!, animated: true)
         }
         mm_drawerController.toggle(.right, animated:true, completion:nil)
     }
