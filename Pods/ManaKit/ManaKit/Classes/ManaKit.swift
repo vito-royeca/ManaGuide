@@ -63,10 +63,10 @@ open class ManaKit: NSObject {
      */
     open func imageFromFramework(imageName: ImageName) -> UIImage? {
         let bundle = Bundle(for: ManaKit.self)
-        let subDir = "images"
+//        let subDir = "images"
         let resource = imageName.rawValue
         
-        if let url = bundle.url(forResource: resource, withExtension: "png", subdirectory: subDir) {
+        if let url = bundle.url(forResource: resource, withExtension: "png", subdirectory: nil/*subDir*/) {
             let data = try! Data(contentsOf: url)
             return UIImage(data: data)
         }
@@ -194,7 +194,7 @@ open class ManaKit: NSObject {
     func loadCustomFonts() {
         let bundle = Bundle(for: ManaKit.self)
         
-        if let urls = bundle.urls(forResourcesWithExtension: "ttf", subdirectory: "fonts") {
+        if let urls = bundle.urls(forResourcesWithExtension: "ttf", subdirectory: nil/*"fonts"*/) {
             for url in urls {
                 let data = try! Data(contentsOf: url)
                 let error: UnsafeMutablePointer<Unmanaged<CFError>?>? = nil
