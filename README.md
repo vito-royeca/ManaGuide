@@ -1,5 +1,5 @@
 # Mana Guide
-An iOS app database of Magic: The Gathering cards. Uses the [ManaKit](https://github.com/jovito-royeca/ManaGuide) Cocoapod library for data.
+An iOS app database of Magic: The Gathering cards. This is the  successor to the [Decktracker](https://github.com/jovito-royeca/Decktracker) project.
 
 ## Author
 Jovito Royeca
