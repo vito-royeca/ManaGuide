@@ -34,8 +34,10 @@ extension CMCard {
     @NSManaged public var mciNumber: String?
     @NSManaged public var multiverseid: Int64
     @NSManaged public var name: String?
+    @NSManaged public var nameSection: String?
     @NSManaged public var names: Data?
     @NSManaged public var number: String?
+    @NSManaged public var numberSection: String?
     @NSManaged public var originalText: String?
     @NSManaged public var originalType: String?
     @NSManaged public var power: String?

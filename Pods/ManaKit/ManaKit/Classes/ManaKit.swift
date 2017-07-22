@@ -14,7 +14,6 @@ import Sync
 
 public let kMTGJSONVersion      = "3.9.3"
 public let kMTGJSONVersionKey   = "kMTGJSONVersionKey"
-public let kImagesVersion       = kMTGJSONVersion
 public let kImagesVersionKey    = "kImagesVersionKey"
 public let kCardImageSource     = "http://magiccards.info"
 public let kEightEditionRelease = "2003-07-28"
@@ -69,15 +68,6 @@ open class ManaKit: NSObject {
             let resourceBundle = Bundle(url: bundleURL)
             return UIImage(named: imageName.rawValue, in: resourceBundle, compatibleWith: nil)
         }
-        
-//        let bundle = Bundle(for: ManaKit.self)
-//        let subDir = "images"
-//        let resource = imageName.rawValue
-//        
-//        if let url = bundle.url(forResource: resource, withExtension: "png", subdirectory: subDir) {
-//            let data = try! Data(contentsOf: url)
-//            return UIImage(data: data)
-//        }
         
         return nil
     }
@@ -249,42 +239,6 @@ open class ManaKit: NSObject {
             }
         }
     }
-    
-//    func unpackImages() {
-//        if let cachePath = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first {
-//            var willCopy = true
-//            
-//            let targetPath = "\(cachePath)/images"
-//            willCopy = !FileManager.default.fileExists(atPath: targetPath)
-//            
-//            // Check if we saved the version number
-//            if let version = UserDefaults.standard.object(forKey: kImagesVersionKey) as? String {
-//                willCopy = version != kImagesVersion
-//            }
-//            
-//            if willCopy {
-//                let bundle = Bundle(for: ManaKit.self)
-//                
-//                if let bundleURL = bundle.resourceURL?.appendingPathComponent("ManaKit.bundle") {
-//                    let resourceBundle = Bundle(url: bundleURL)
-//                    
-//                    // Remove old images dir
-//                    if FileManager.default.fileExists(atPath: targetPath) {
-//                        try! FileManager.default.removeItem(atPath: targetPath)
-//                    }
-//                    
-//                    if let sourcePath = resourceBundle?.path(forResource: "images", ofType: "zip") {
-//                        // Unzip
-//                        try! SSZipArchive.unzipFile(atPath: sourcePath, toDestination: cachePath, overwrite: true, password: nil)
-//                        
-//                        // Save the version
-//                        UserDefaults.standard.set(kImagesVersion, forKey: kImagesVersionKey)
-//                        UserDefaults.standard.synchronize()
-//                    }
-//                }
-//            }
-//        }
-//    }
     
     // MARK: Database methods
     open func findOrCreateObject(_ entityName: String, objectFinder: [String: AnyObject]?) -> NSManagedObject? {

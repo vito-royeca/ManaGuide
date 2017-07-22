@@ -23,6 +23,7 @@ extension CMSet {
     @NSManaged public var gathererCode: String?
     @NSManaged public var magicCardsInfoCode: String?
     @NSManaged public var name: String?
+    @NSManaged public var nameSection: String?
     @NSManaged public var oldCode: String?
     @NSManaged public var onlineOnly: Bool
     @NSManaged public var releaseDate: String?
@@ -31,6 +32,8 @@ extension CMSet {
     @NSManaged public var block_: CMBlock?
     @NSManaged public var border_: CMBorder?
     @NSManaged public var cards: NSSet?
+    @NSManaged public var typeSection: String?
+    @NSManaged public var yearSection: String?
     @NSManaged public var printings_: NSSet?
     @NSManaged public var setBoosters_: NSSet?
     @NSManaged public var type_: CMSetType?
