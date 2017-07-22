@@ -33,31 +33,43 @@ class SetViewController: BaseViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        dataSource = getDataSource(nil)
-        
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kIASKAppSettingChanged), object:nil)
         NotificationCenter.default.addObserver(self, selector: #selector(SetViewController.updateData(_:)), name: NSNotification.Name(rawValue: kIASKAppSettingChanged), object: nil)
         
         rightMenuButton.image = UIImage.fontAwesomeIcon(name: .gear, textColor: UIColor.white, size: CGSize(width: 30, height: 30))
         rightMenuButton.title = nil
         tableView.register(ManaKit.sharedInstance.nibFromBundle("CardTableViewCell"), forCellReuseIdentifier: "CardCell")
+        
+        dataSource = getDataSource(nil)
     }
 
     // MARK: Custom methods
     func getDataSource(_ fetchRequest: NSFetchRequest<NSFetchRequestResult>?) -> DATASource? {
         var request:NSFetchRequest<NSFetchRequestResult>?
+        let defaults = defaultsValue()
+        let setSortBy = defaults["setSortBy"] as! String
+        var sectionName:String?
+        
+        switch setSortBy {
+        case "name":
+            sectionName = "nameSection"
+        case "mciNumber":
+            sectionName = "numberSection"
+        default:
+            ()
+        }
         
         if let fetchRequest = fetchRequest {
             request = fetchRequest
         } else {
             request = NSFetchRequest(entityName: "CMCard")
-            let defaults = defaultsValue()
             
-            request!.sortDescriptors = [NSSortDescriptor(key: defaults["setSortBy"] as? String, ascending: (defaults["setOrderBy"] as? Bool)!)]
+            request!.sortDescriptors = [NSSortDescriptor(key: sectionName!, ascending: true),
+                                        NSSortDescriptor(key: setSortBy, ascending: (defaults["setsOrderBy"] as? Bool)!)]
             request!.predicate = NSPredicate(format: "set.code = %@", set!.code!)
         }
         
-        let dataSource = DATASource(tableView: tableView, cellIdentifier: "CardCell", fetchRequest: request!, mainContext: ManaKit.sharedInstance.dataStack!.mainContext, configuration: { cell, item, indexPath in
+        let dataSource = DATASource(tableView: tableView, cellIdentifier: "CardCell", fetchRequest: request!, mainContext: ManaKit.sharedInstance.dataStack!.mainContext, sectionName: sectionName, configuration: { cell, item, indexPath in
             if let card = item as? CMCard,
                 let cardCell = cell as? CardTableViewCell {
                 

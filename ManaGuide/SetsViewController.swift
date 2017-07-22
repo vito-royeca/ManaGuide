@@ -16,7 +16,8 @@ class SetsViewController: BaseViewController {
 
     // MARK: Variables
     var dataSource: DATASource?
-
+    var sectionIndexTitles = [String]()
+    
     // MARK: Outlets
     @IBOutlet weak var rightMenuButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
@@ -31,13 +32,15 @@ class SetsViewController: BaseViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        dataSource = getDataSource(nil)
-        
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kIASKAppSettingChanged), object:nil)
         NotificationCenter.default.addObserver(self, selector: #selector(SetsViewController.updateData(_:)), name: NSNotification.Name(rawValue: kIASKAppSettingChanged), object: nil)
         
         rightMenuButton.image = UIImage.fontAwesomeIcon(name: .gear, textColor: UIColor.white, size: CGSize(width: 30, height: 30))
         rightMenuButton.title = nil
+        
+        dataSource = getDataSource(nil)
+        updateSectionIndexTitles()
+        tableView.reloadData()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -54,17 +57,31 @@ class SetsViewController: BaseViewController {
     // MARK: Custom methods
     func getDataSource(_ fetchRequest: NSFetchRequest<NSFetchRequestResult>?) -> DATASource? {
         var request:NSFetchRequest<NSFetchRequestResult>?
+        let defaults = defaultsValue()
+        let setsSortBy = defaults["setsSortBy"] as! String
+        let setsOrderBy = defaults["setsOrderBy"] as! Bool
+        var sectionName:String?
+        
+        switch setsSortBy {
+        case "releaseDate":
+            sectionName = "yearSection"
+        case "name":
+            sectionName = "nameSection"
+        case "type_.name":
+            sectionName = "typeSection"
+        default:
+            ()
+        }
         
         if let fetchRequest = fetchRequest {
             request = fetchRequest
         } else {
             request = NSFetchRequest(entityName: "CMSet")
-            let defaults = defaultsValue()
-            
-            request!.sortDescriptors = [NSSortDescriptor(key: defaults["setsSortBy"] as? String, ascending: (defaults["setsOrderBy"] as? Bool)!)]
+            request!.sortDescriptors = [NSSortDescriptor(key: sectionName!, ascending: setsOrderBy),
+                                        NSSortDescriptor(key: setsSortBy, ascending: setsOrderBy)]
         }
         
-        let dataSource = DATASource(tableView: tableView, cellIdentifier: "SetCell", fetchRequest: request!, mainContext: ManaKit.sharedInstance.dataStack!.mainContext, configuration: { cell, item, indexPath in
+        let dataSource = DATASource(tableView: tableView, cellIdentifier: "SetCell", fetchRequest: request!, mainContext: ManaKit.sharedInstance.dataStack!.mainContext, sectionName: sectionName, configuration: { cell, item, indexPath in
             if let set = item as? CMSet {
                 
                 if let setIconView = cell.contentView.viewWithTag(100) as? UIImageView {
@@ -86,7 +103,41 @@ class SetsViewController: BaseViewController {
             }
         })
         
+        dataSource.delegate = self
         return dataSource
+    }
+
+    func updateSectionIndexTitles() {
+        if let dataSource = dataSource {
+            let sets = dataSource.all() as [CMSet]
+            sectionIndexTitles = [String]()
+            
+            let defaults = defaultsValue()
+            let setsSortBy = defaults["setsSortBy"] as! String
+            
+            switch setsSortBy {
+            case "name":
+                for set in sets {
+                    if !sectionIndexTitles.contains(set.nameSection!) {
+                        sectionIndexTitles.append(set.nameSection!)
+                    }
+                }
+                
+            case "type_.name":
+                for set in sets {
+                    let prefix = String(set.type_!.name!.characters.prefix(1)).uppercased()
+                    
+                    if !sectionIndexTitles.contains(prefix) {
+                        sectionIndexTitles.append(prefix)
+                    }
+                }
+            default:
+                ()
+            }
+        }
+        
+        sectionIndexTitles.sort()
+
     }
 
     func updateData(_ notification: Notification) {
@@ -123,6 +174,7 @@ class SetsViewController: BaseViewController {
             request.sortDescriptors = [NSSortDescriptor(key: setsSortBy, ascending: setsOrderBy)]
             
             dataSource = getDataSource(request)
+            updateSectionIndexTitles()
             tableView.reloadData()
         }
     }
@@ -171,3 +223,43 @@ extension SetsViewController : UITableViewDelegate {
         performSegue(withIdentifier: "showSet", sender: set)
     }
 }
+
+// MARK: DATASourceDelegate
+extension SetsViewController : DATASourceDelegate {
+    // return list of section titles to display in section index view (e.g. "ABCD...Z#")
+    func sectionIndexTitlesForDataSource(_ dataSource: DATASource, tableView: UITableView) -> [String] {
+        return sectionIndexTitles
+    }
+    
+    // tell table which section corresponds to section title/index (e.g. "B",1))
+    func dataSource(_ dataSource: DATASource, tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
+        let defaults = defaultsValue()
+        let setsOrderBy = defaults["setsOrderBy"] as! Bool
+        var sectionIndex = 0
+        
+        print("\(title) / \(index)")
+        
+        if setsOrderBy {
+            sectionIndex = index
+        } else {
+            sectionIndex = (sectionIndexTitles.count - 1) - index
+        }
+        
+//        if setsOrderBy {
+//            for i in 0...sectionIndexTitles.count - 1 {
+//                if sectionIndexTitles[i] == title {
+//                    return i
+//                }
+//            }
+//        } else {
+//            for i in stride(from: sectionIndexTitles.count - 1, to: 0, by: -1) {
+//                if sectionIndexTitles[i] == title {
+//                    return i
+//                }
+//            }
+//        }
+        
+        return sectionIndex
+    }
+}
+

@@ -120,10 +120,8 @@ extension FeaturedViewController : SliderTableViewCellDelegate {
         if let cell = cell as? SetItemSliderCollectionViewCell,
             let item = item as? CMSet {
             
-            if let rarity = ManaKit.sharedInstance.findOrCreateObject("CMRarity", objectFinder: ["name": "Common" as AnyObject]) as? CMRarity {
-                cell.iconView.image = ManaKit.sharedInstance.setImage(set: item, rarity: rarity)
-                cell.titleLabel.text = item.name
-            }
+            cell.iconView.image = ManaKit.sharedInstance.setImage(set: item, rarity: nil)
+            cell.titleLabel.text = item.name
         }
     }
 }
