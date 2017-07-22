@@ -59,8 +59,9 @@ class SetsViewController: BaseViewController {
             request = fetchRequest
         } else {
             request = NSFetchRequest(entityName: "CMSet")
-            // TODO: get key and ascending from UserDefaults
-            request!.sortDescriptors = [NSSortDescriptor(key: "releaseDate", ascending: false)]
+            let defaults = defaultsValue()
+            
+            request!.sortDescriptors = [NSSortDescriptor(key: defaults["setsSortBy"] as? String, ascending: (defaults["setsOrderBy"] as? Bool)!)]
         }
         
         let dataSource = DATASource(tableView: tableView, cellIdentifier: "SetCell", fetchRequest: request!, mainContext: ManaKit.sharedInstance.dataStack!.mainContext, configuration: { cell, item, indexPath in
@@ -90,17 +91,18 @@ class SetsViewController: BaseViewController {
 
     func updateData(_ notification: Notification) {
         if let userInfo = notification.userInfo as? [String: Any] {
-            var key = "releaseDate"
-            var ascending = false
+            let defaults = defaultsValue()
+            var setsSortBy = defaults["setsSortBy"] as! String
+            var setsOrderBy = defaults["setsOrderBy"] as! Bool
             
             if let value = userInfo["setsSortBy"] as? NSNumber {
                 switch value {
                 case 1:
-                    key = "releaseDate"
+                    setsSortBy = "releaseDate"
                 case 2:
-                    key = "name"
+                    setsSortBy = "name"
                 case 3:
-                    key = "type_.name"
+                    setsSortBy = "type_.name"
                 default:
                     ()
                 }
@@ -109,20 +111,55 @@ class SetsViewController: BaseViewController {
             if let value = userInfo["setsOrderBy"] as? NSNumber {
                 switch value {
                 case 1:
-                    ascending = true
+                    setsOrderBy = true
                 case 2:
-                    ascending = false
+                    setsOrderBy = false
                 default:
                     ()
                 }
             }
             
             let request:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CMSet")
-            request.sortDescriptors = [NSSortDescriptor(key: key, ascending: ascending ? true : false)]
+            request.sortDescriptors = [NSSortDescriptor(key: setsSortBy, ascending: setsOrderBy)]
             
             dataSource = getDataSource(request)
             tableView.reloadData()
         }
+    }
+    
+    func defaultsValue() -> [String: Any] {
+        var values = [String: Any]()
+        var setsSortBy = "releaseDate"
+        var setsOrderBy = false
+        
+        if let value = UserDefaults.standard.value(forKey: "setsSortBy") as? NSNumber {
+            switch value {
+            case 1:
+                setsSortBy = "releaseDate"
+            case 2:
+                setsSortBy = "name"
+            case 3:
+                setsSortBy = "type_.name"
+            default:
+                ()
+            }
+        }
+        
+        if let value = UserDefaults.standard.value(forKey: "setsOrderBy") as? NSNumber {
+            switch value {
+            case 1:
+                setsOrderBy = true
+            case 2:
+                setsOrderBy = false
+            default:
+                ()
+            }
+        }
+
+        values["setsSortBy"] = setsSortBy
+        values["setsOrderBy"] = setsOrderBy
+        
+        return values
     }
 }
 

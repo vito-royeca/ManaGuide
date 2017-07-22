@@ -51,9 +51,10 @@ class SetViewController: BaseViewController {
             request = fetchRequest
         } else {
             request = NSFetchRequest(entityName: "CMCard")
+            let defaults = defaultsValue()
+            
+            request!.sortDescriptors = [NSSortDescriptor(key: defaults["setSortBy"] as? String, ascending: (defaults["setOrderBy"] as? Bool)!)]
             request!.predicate = NSPredicate(format: "set.code = %@", set!.code!)
-            // TODO: get key and ascending from UserDefaults
-            request!.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         }
         
         let dataSource = DATASource(tableView: tableView, cellIdentifier: "CardCell", fetchRequest: request!, mainContext: ManaKit.sharedInstance.dataStack!.mainContext, configuration: { cell, item, indexPath in
@@ -70,15 +71,18 @@ class SetViewController: BaseViewController {
     
     func updateData(_ notification: Notification) {
         if let userInfo = notification.userInfo as? [String: Any] {
-            var key = "name"
-            var ascending = false
+            let defaults = defaultsValue()
+            var setSortBy = defaults["setSortBy"] as! String
+            var setOrderBy = defaults["setOrderBy"] as! Bool
+//            var setDisplayBy = defaults["setDisplayBy"] as! NSNumber
+//            var setShow = defaults["setShow"] as! NSNumber
             
             if let value = userInfo["setSortBy"] as? NSNumber {
                 switch value {
                 case 1:
-                    key = "name"
+                    setSortBy = "name"
                 case 2:
-                    key = "mciNumber"
+                    setSortBy = "mciNumber"
                 default:
                     ()
                 }
@@ -87,25 +91,75 @@ class SetViewController: BaseViewController {
             if let value = userInfo["setOrderBy"] as? NSNumber {
                 switch value {
                 case 1:
-                    ascending = true
+                    setOrderBy = true
                 case 2:
-                    ascending = false
+                    setOrderBy = false
                 default:
                     ()
                 }
             }
             
-            // TODO: fi if there's no key or ascending
-            // TODO: handle setDisplayBy
-            // TODO: handle setShow
+            // TODO: implement these
+//            if let value = userInfo["setDisplayBy"] as? NSNumber {
+//                setDisplayBy = value
+//            }
+//            
+//            if let value = userInfo["setShow"] as? NSNumber {
+//                setShow = value
+//            }
             
             let request:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CMCard")
             request.predicate = NSPredicate(format: "set.code = %@", set!.code!)
-            request.sortDescriptors = [NSSortDescriptor(key: key, ascending: ascending ? true : false)]
+            request.sortDescriptors = [NSSortDescriptor(key: setSortBy, ascending: setOrderBy)]
 
             dataSource = getDataSource(request)
             tableView.reloadData()
         }
+    }
+    
+    func defaultsValue() -> [String: Any] {
+        var values = [String: Any]()
+        var setSortBy = "releaseDate"
+        var setOrderBy = false
+        var setDisplayBy = NSNumber(value: 1)
+        var setShow = NSNumber(value: 1)
+        
+        if let value = UserDefaults.standard.value(forKey: "setSortBy") as? NSNumber {
+            switch value {
+            case 1:
+                setSortBy = "name"
+            case 2:
+                setSortBy = "mciNumber"
+            default:
+                ()
+            }
+        }
+        
+        if let value = UserDefaults.standard.value(forKey: "setOrderBy") as? NSNumber {
+            switch value {
+            case 1:
+                setOrderBy = true
+            case 2:
+                setOrderBy = false
+            default:
+                ()
+            }
+        }
+        
+        if let value = UserDefaults.standard.value(forKey: "setDisplayBy") as? NSNumber {
+            setDisplayBy = value
+        }
+        
+        if let value = UserDefaults.standard.value(forKey: "setShow") as? NSNumber {
+            setShow = value
+        }
+        
+        values["setSortBy"] = setSortBy
+        values["setOrderBy"] = setOrderBy
+        values["setDisplayBy"] = setDisplayBy
+        values["setShow"] = setShow
+        
+        return values
     }
 
 }
