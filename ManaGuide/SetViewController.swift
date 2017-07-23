@@ -17,6 +17,7 @@ class SetViewController: BaseViewController {
     // MARK: Variables
     var set:CMSet?
     var dataSource: DATASource?
+    var sectionIndexTitles = [String]()
 
     // MARK: Outlets
     @IBOutlet weak var rightMenuButton: UIBarButtonItem!
@@ -41,6 +42,7 @@ class SetViewController: BaseViewController {
         tableView.register(ManaKit.sharedInstance.nibFromBundle("CardTableViewCell"), forCellReuseIdentifier: "CardCell")
         
         dataSource = getDataSource(nil)
+        updateSectionIndexTitles()
     }
 
     // MARK: Custom methods
@@ -48,6 +50,7 @@ class SetViewController: BaseViewController {
         var request:NSFetchRequest<NSFetchRequestResult>?
         let defaults = defaultsValue()
         let setSortBy = defaults["setSortBy"] as! String
+        let setOrderBy = defaults["setOrderBy"] as! Bool
         var sectionName:String?
         
         switch setSortBy {
@@ -64,8 +67,8 @@ class SetViewController: BaseViewController {
         } else {
             request = NSFetchRequest(entityName: "CMCard")
             
-            request!.sortDescriptors = [NSSortDescriptor(key: sectionName!, ascending: true),
-                                        NSSortDescriptor(key: setSortBy, ascending: (defaults["setsOrderBy"] as? Bool)!)]
+            request!.sortDescriptors = [NSSortDescriptor(key: sectionName!, ascending: setOrderBy),
+                                        NSSortDescriptor(key: setSortBy, ascending: setOrderBy)]
             request!.predicate = NSPredicate(format: "set.code = %@", set!.code!)
         }
         
@@ -75,10 +78,39 @@ class SetViewController: BaseViewController {
                 
                 cardCell.card = card
                 cardCell.updateDataDisplay()
+//                if let types_ = card.types_ {
+//                    for type in types_.allObjects as! [CMCardType] {
+//                        print("\(card.name!) - \(type.name!)")
+//                    }
+//                }
             }
         })
-        
+    
+        dataSource.delegate = self
         return dataSource
+    }
+    
+    func updateSectionIndexTitles() {
+        if let dataSource = dataSource {
+            let cards = dataSource.all() as [CMCard]
+            sectionIndexTitles = [String]()
+            
+            let defaults = defaultsValue()
+            let setSortBy = defaults["setSortBy"] as! String
+            
+            switch setSortBy {
+            case "name":
+                for card in cards {
+                    if !sectionIndexTitles.contains(card.nameSection!) {
+                        sectionIndexTitles.append(card.nameSection!)
+                    }
+                }
+            default:
+                ()
+            }
+        }
+        
+        sectionIndexTitles.sort()
     }
     
     func updateData(_ notification: Notification) {
@@ -125,13 +157,14 @@ class SetViewController: BaseViewController {
             request.sortDescriptors = [NSSortDescriptor(key: setSortBy, ascending: setOrderBy)]
 
             dataSource = getDataSource(request)
+            updateSectionIndexTitles()
             tableView.reloadData()
         }
     }
     
     func defaultsValue() -> [String: Any] {
         var values = [String: Any]()
-        var setSortBy = "releaseDate"
+        var setSortBy = "name"
         var setOrderBy = false
         var setDisplayBy = NSNumber(value: 1)
         var setShow = NSNumber(value: 1)
@@ -180,5 +213,31 @@ class SetViewController: BaseViewController {
 extension SetViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return kCardTableViewCellHeight
+    }
+}
+
+// MARK: DATASourceDelegate
+extension SetViewController : DATASourceDelegate {
+    // return list of section titles to display in section index view (e.g. "ABCD...Z#")
+    func sectionIndexTitlesForDataSource(_ dataSource: DATASource, tableView: UITableView) -> [String] {
+        return sectionIndexTitles
+    }
+    
+    // tell table which section corresponds to section title/index (e.g. "B",1))
+    func dataSource(_ dataSource: DATASource, tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
+        let defaults = defaultsValue()
+        let setsOrderBy = defaults["setOrderBy"] as! Bool
+        var sectionIndex = 0
+        
+        // TODO: fix this!!!
+        print("\(title) / \(index)")
+        
+        if setsOrderBy {
+            sectionIndex = index
+        } else {
+            sectionIndex = (sectionIndexTitles.count - 1) - index
+        }
+        
+        return sectionIndex
     }
 }

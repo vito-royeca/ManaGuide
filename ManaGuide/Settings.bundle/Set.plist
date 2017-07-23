@@ -19,11 +19,13 @@
 			<array>
 				<integer>1</integer>
 				<integer>2</integer>
+				<integer>3</integer>
 			</array>
 			<key>Titles</key>
 			<array>
 				<string>Name</string>
 				<string>Number</string>
+				<string>Type</string>
 			</array>
 		</dict>
 		<dict>

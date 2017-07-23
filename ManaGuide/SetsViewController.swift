@@ -40,7 +40,6 @@ class SetsViewController: BaseViewController {
         
         dataSource = getDataSource(nil)
         updateSectionIndexTitles()
-        tableView.reloadData()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -137,7 +136,6 @@ class SetsViewController: BaseViewController {
         }
         
         sectionIndexTitles.sort()
-
     }
 
     func updateData(_ notification: Notification) {
@@ -218,8 +216,7 @@ class SetsViewController: BaseViewController {
 // MARK: UITableViewDelegate
 extension SetsViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let sets = dataSource!.all()
-        let set = sets[indexPath.row]
+        let set = dataSource!.object(indexPath)
         performSegue(withIdentifier: "showSet", sender: set)
     }
 }
@@ -237,6 +234,7 @@ extension SetsViewController : DATASourceDelegate {
         let setsOrderBy = defaults["setsOrderBy"] as! Bool
         var sectionIndex = 0
         
+        // TODO: fix this!!!
         print("\(title) / \(index)")
         
         if setsOrderBy {
