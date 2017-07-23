@@ -4,7 +4,7 @@ PODS:
   - FontAwesome.swift (1.2.0)
   - InAppSettingsKit (2.8.1)
   - Kanna (2.1.1)
-  - ManaKit (0.7.3):
+  - ManaKit (0.8.0):
     - DATASource
     - DATAStack (~> 6)
     - Kanna
@@ -53,7 +53,7 @@ SPEC CHECKSUMS:
   FontAwesome.swift: 60063e3f19ba4801155d4b0f2334ab7585763ab3
   InAppSettingsKit: 94d2fba3ccd700fc4e32c6d09fabcc0af2426744
   Kanna: 9b4b086c218703f2b94f5b21a466217dd2f9332e
-  ManaKit: 5b1d0e408820b68304c30ac3f1ff149c9c462cc6
+  ManaKit: 2f742609641c836fa4b9e97eb9ca0fb5dc58b845
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   MMDrawerController: e3a54a5570388463ad3b36975251575b50c4e1a0
   MMDrawerController+Storyboard: c98f86c0f32cdef1d466d19a7da3ad2fc6c6ac00
