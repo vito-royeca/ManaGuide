@@ -1,6 +1,0 @@
-framework module Pods_ManaGuideUITests {
-  umbrella header "Pods-ManaGuideUITests-umbrella.h"
-
-  export *
-  module * { export * }
-}

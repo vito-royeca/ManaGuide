@@ -1,6 +1,0 @@
-framework module Pods_ManaGuide {
-  umbrella header "Pods-ManaGuide-umbrella.h"
-
-  export *
-  module * { export * }
-}
