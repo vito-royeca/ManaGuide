@@ -1,5 +1,5 @@
 # Mana Guide
-An iOS app database of Magic: The Gathering cards. This is the  successor to the [Decktracker](https://github.com/jovito-royeca/Decktracker) project.
+A mobile app of Magic: The Gathering cards. This is the  successor to the [Decktracker](https://github.com/jovito-royeca/Decktracker) project.
 
 ## Submodules
 - [ManaKit](https://github.com/jovito-royeca/ManaKit)
@@ -16,5 +16,5 @@ jovit.royeca@gmail.com
 
 ## License
 
-ManaGuide is available under the MIT license. See the LICENSE file for more info.
+Mana Guide is available under the MIT license. See the LICENSE file for more info.
 
