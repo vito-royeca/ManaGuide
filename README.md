@@ -16,5 +16,5 @@ jovit.royeca@gmail.com
 
 ## License
 
-ManaKit is available under the MIT license. See the LICENSE file for more info.
+ManaGuide is available under the MIT license. See the LICENSE file for more info.
 
