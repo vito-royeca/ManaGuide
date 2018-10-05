@@ -1,6 +1,6 @@
-![A mobile app of Magic: The Gathering cards](images/logo.png)
+![Mana Guide](images/logo with words 4.png)
 
-This is the  successor to the [Decktracker](https://github.com/jovito-royeca/Decktracker) project.
+A mobile app of Magic: The Gathering cards. This is the  successor to the [Decktracker](https://github.com/jovito-royeca/Decktracker) project.
 
 ## Submodules
 - [ManaKit](https://github.com/jovito-royeca/ManaKit)
