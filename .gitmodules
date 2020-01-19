@@ -7,7 +7,7 @@
 [submodule "ManaGuide-web"]
 	path = ManaGuide-web
 	url = https://github.com/vito-royeca/ManaGuide-web.git
-[submodule "ManaGuide-node"]
-        path = Managuide-node
-        url = https://github.com/vito-royeca/ManaGuide-node.git
 
+[submodule "ManaGuide-node"]
+	path = ManaGuide-node
+	url = https://github.com/vito-royeca/ManaGuide-node.git
