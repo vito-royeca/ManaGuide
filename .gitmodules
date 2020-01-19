@@ -1,9 +1,13 @@
 [submodule "ManaGuide-ios"]
 	path = ManaGuide-ios
-	url = https://github.com/jovito-royeca/ManaGuide-ios.git
+	url = https://github.com/vito-royeca/ManaGuide-ios.git
 [submodule "ManaKit"]
 	path = ManaKit
-	url = https://github.com/jovito-royeca/ManaKit.git
+	url = https://github.com/vito-royeca/ManaKit.git
 [submodule "ManaGuide-web"]
 	path = ManaGuide-web
-	url = https://github.com/jovito-royeca/ManaGuide-web.git
+	url = https://github.com/vito-royeca/ManaGuide-web.git
+[submodule "ManaGuide-node"]
+        path = Managuide-node
+        url = https://github.com/vito-royeca/ManaGuide-node.git
+

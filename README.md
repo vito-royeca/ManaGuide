@@ -1,19 +1,21 @@
 ![Mana Guide](images/logo_with_words_4.png)
 
-A mobile app of Magic: The Gathering cards. This is the  successor to the [Decktracker](https://github.com/jovito-royeca/Decktracker) project.
+A database of Magic: The Gathering cards. This is the  successor to the [Decktracker](https://github.com/jovito-royeca/Decktracker) project.
 
 ## Submodules
-- [ManaKit](https://github.com/jovito-royeca/ManaKit)
-- [ManaGuide-ios](https://github.com/jovito-royeca/ManaGuide-ios)
-- [ManaGuide-web](https://github.com/jovito-royeca/ManaGuide-web)
+- [ManaKit](https://github.com/vito-royeca/ManaKit)
+- [ManaGuide-ios](https://github.com/vito-royeca/ManaGuide-ios)
+- [ManaGuide-node](https://github.com/vito-royeca/ManaGuide-node)
+- [ManaGuide-web](https://github.com/vito-royeca/ManaGuide-web)
+
 
 ## Website
-[Mana Guide](http://managuideapp.com)
+[Mana Guide](https://managuideapp.com)
 
 ## Author
 
-Jovito Royeca<br/>
-jovit.royeca@gmail.com
+Vito Royeca<br/>
+vito.royeca@gmail.com
 
 ## License
 

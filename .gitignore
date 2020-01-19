@@ -70,3 +70,5 @@ fastlane/test_output
 # temporary files
 tmp
 
+# my additions
+rsynch
