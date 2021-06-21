@@ -11,3 +11,6 @@
 [submodule "ManaGuide-node"]
 	path = ManaGuide-node
 	url = https://github.com/vito-royeca/ManaGuide-node.git
+[submodule "ManaGuide-maintainer"]
+	path = ManaGuide-maintainer
+	url = git@github.com:vito-royeca/ManaGuide-maintainer.git

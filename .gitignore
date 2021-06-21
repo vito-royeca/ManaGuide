@@ -71,4 +71,5 @@ fastlane/test_output
 tmp
 
 # my additions
-rsynch
+rsync.sh
+
