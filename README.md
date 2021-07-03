@@ -1,4 +1,6 @@
-![Mana Guide](images/logo_with_words_4.png)
+![Mana Guide](images/logo with words 2.png)
+
+# Mana Guide
 
 A database of Magic: The Gathering cards. This is the  successor to the [Decktracker](https://github.com/jovito-royeca/Decktracker) project.
 
