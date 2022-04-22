@@ -14,3 +14,6 @@
 [submodule "ManaGuide-maintainer"]
 	path = ManaGuide-maintainer
 	url = git@github.com:vito-royeca/ManaGuide-maintainer.git
+[submodule "ManaGuide-multiplatform"]
+	path = ManaGuide-multiplatform
+	url = ./ManaGuide-multiplatform
